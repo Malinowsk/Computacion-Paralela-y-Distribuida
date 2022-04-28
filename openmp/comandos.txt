@@ -1,0 +1,5 @@
+gcc -o executable -fopenmp main.c    // genera un ejecutable llamado "executable" utilizando el codigo fuente main.c
+
+cat /proc/cpuinfo | grep bogomlps | wc -l  // saber cuantos procesadores tengo
+
+
