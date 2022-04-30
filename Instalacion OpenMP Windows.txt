@@ -1,0 +1,6 @@
+Configuración OpenMP para Windows:
+Descargar mingw64 desde este link : https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/8.1.0/threads-posix/sjlj/x86_64-8.1.0-release-posix-sjlj-rt_v6-rev0.7z
+Después de extraer el zip , ir a: 
+Editar variables de entorno<<Variables de entorno<<Path(Variables del sistema)<<Nuevo<< "Agregar al final el path absoulto donde está el mingw64/bin extraido
+
+Luego para ejecutar el programa, pararse en donde está el proyecto del código, y poner :  gcc -fopenmp <nombre-programa>.c 
