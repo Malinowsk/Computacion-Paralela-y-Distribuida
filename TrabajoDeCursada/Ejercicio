@@ -1,0 +1,12 @@
+1) Teniendo en cuenta dos aplicaciones (cálculo número Pi discutida en el material, y el algoritmo clásico de multiplicación de matrices), desarrollá diferentes versiones paralelas de las aplicaciones utilizando:
+
+a - OpenMP, usando cualquier directiva excepto “omp reduction”
+b - OpenMP, utilizando “omp parallel for” en conjunto con “omp reduction”
+
+2) Teniendo en cuenta los códigos a) y b) anteriores, por cada aplicación, realizá una comparación experimental entre las implementaciones obtenidas, para una precisión alta del cálculo (num_steps en aplicación Pi) y diferentes tamaños de matrices. Tené en cuenta los criterios para la realización de experimentos con software paralelo, vale decir:
+
+- Para obtener un tiempo estimado de ejecución en cada caso, realizá varias ejecuciones de cada variante de las aplicaciones con la misma entrada. Luego promediá estos tiempos para obtener el valor estimativo. Si el desvío estándar de los experimentos es aún grande, añadí más ejecuciones hasta tener un promedio estadísticamente significativo.
+- Variá la cantidad de threads de forma tal de analizar cómo se comporta la performance a medida que el nivel de paralelismo aumenta.
+- Describí el hardware utilizado, sobre todo núcleos y velocidad de cada uno.
+
+3) Tomá como referencia 1 (una) de las variantes paralelas del punto 1) de cada aplicación y aplicá la noción de scheduling (“static” o “dynamic”), con diferente “chunk size” (ver slides OpenMP). Es posible lograr una ejecución donde el scheduling sea beneficioso?
