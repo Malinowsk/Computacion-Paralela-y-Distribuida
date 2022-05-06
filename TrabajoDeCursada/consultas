@@ -1,5 +1,0 @@
-Manejo de Tiempos, ya que la función omp_get_wtime() retorna un double que no representa una medida de tiempo, y es acumulativa en diferentes ejecuciones
-Consulta sobre cantidad de procesadores y hardware a utilizar(referencia a Inciso 2)
-Las matrices tienen que ser de NxN?
-Se debe entregar un solo ejecutable ?
-Las inicializaciones de las matrices hay que paralelizarlas ?
