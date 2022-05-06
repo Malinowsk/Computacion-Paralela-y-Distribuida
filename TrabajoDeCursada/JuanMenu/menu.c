@@ -1,8 +1,17 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h>  // para usar el system
+#include <unistd.h>  //  para usar el sleep
 
+void menu();
 
 int main(){
+
+    menu();
+    
+    return 0;
+}
+
+void menu(){
 
     int opcion ;    
     
@@ -23,17 +32,17 @@ int main(){
 
         switch (opcion) {
             case 1:
-                printf("Instrucciones de la opcion 1\n");
+                printf("Opcion 1\n");
                 
                 break;
                 
             case 2:
-                printf("Instrucciones de la opcion 2\n");
+                printf("Opcion 2\n");
                 
                 break;
                 
             case 3:
-                printf("Instrucciones de la opcion 3\n");
+                printf("Opcion 3\n");
                             
                 break;
 
@@ -42,47 +51,11 @@ int main(){
                 break;
         }  
 
+        printf("\n");
+
+        sleep(2); // espera 2 segundos
+
     }
     while (opcion!=4);    // ejecuta el do hasta que la variable opcion no sea 4
     
-    return 0;
 }
-
-/*
-public static void menu(AnalizadorLexico al, Parser p, ConversorTercetoAssembler c) throws InterruptedException {
-        int opcion ;
-        Scanner s = new Scanner (System.in);
-        do {
-            System.out.println("\n");
-            System.out.println("Elija una opcion del menu:");
-            System.out.println("0- Imprimir codigo");
-            System.out.println("1- Listar tabla de simbolos");
-            System.out.println("2- Listar errores");
-            System.out.println("3- Listar tercetos");
-            System.out.println("4- Generar y mostrar el archivo assembler");
-            System.out.println("5- Salir");
-            System.out.println("Ingrese una opción");
-            opcion = s.nextInt();
-            switch (opcion) {
-                case 0: {
-                    al.imprimirCodigo();
-                    break;
-                }
-
-                case 1: {
-                    al.getTablaSimbolo().imprimirTabla();
-                    break;
-                }
-
-                case 2: {
-                    al.imprimirWarningsLexicos();         // caso de que un identificador se pase de los 22 caractenes
-                    p.imprimirWarningsSemanticos();       // caso en el que se redeclara con el mismo nombre de variables
-                    al.imprimirErroresLexicos();          // un error de caracter invalido o que se pase de rango los numeros
-                    p.imprimirErroresSintacticos();
-                    p.imprimirErroresSemanticos();
-                    break;
-                }
-    sleep(2000);
-        } while ( opcion != 5);
-    }
-*/
