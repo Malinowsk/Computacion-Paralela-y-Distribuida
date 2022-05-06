@@ -13,7 +13,7 @@ void generatorPI();
 int main(){   // DESDE DONDE DEEBERIAMOS CONTAR EL TIEMPO?
   omp_set_num_threads(omp_get_num_procs()); //Setea la cantidad de Threads a usar. No debe superar a la cantidad física de cores
   float tiempo_inicial= omp_get_wtime();
-  if(SECUENCIAL == 1)
+  if(SECUENCIAL != 1)
     generatorPI();  // SE PARALELIZA TODO EL PROGRAMA?
   else
     generatorPIs();
@@ -31,15 +31,13 @@ void generatorPI(){
    step = 1.0 / (double) num_steps;
    //#pragma omp parallel
    {
+      //#pragma omp for
       for(int i = 0 ; i < num_steps ; i++){
-           if(SECUENCIAL == 1)
-             x = (i+0.5)*step;
-           else
-             #pragma omp parallel
-             {
-               x = (i+0.5)*step;
-             }
+        x = (i+0.5)*step;
+
+        {
            sum += 4.0/(1.0+x*x);
+        }
       }
 
    }
