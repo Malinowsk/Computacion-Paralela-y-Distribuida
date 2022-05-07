@@ -2,17 +2,19 @@
 #include <stdlib.h>  // para usar el system
 #include <unistd.h>  //  para usar el sleep
 
-void menu();
+void menu_nivel_1();
 int menu_nivel_2();
+int pedirStep();
+int pedirTamMatrix();
 
 int main(){
 
-    menu();
+    menu_nivel_1();
     
     return 0;
 }
 
-void menu(){
+void menu_nivel_1(){
 
     int opcion ;    
     
@@ -41,22 +43,10 @@ void menu(){
                 switch (opcion_1)
                 {
                 case 1:
-                    int numStep1;
-                    printf("\n");
-                    printf("Ingresa numero de step:\n");
-                    printf("\n");
-                    scanf("%d", &numStep1);
-                    //ejecuto algoritmo de pi con el parametro numstep
-                    break;
-                
                 case 2:
-                    int numStep2;
-                    printf("\n");
-                    printf("Ingresa numero de step:\n");
-                    printf("\n");
-                    scanf("%d", &numStep2);
-                    break;
-                     //ejecuto algoritmo de pi con el parametro numstep // caso 1 y 2 se juntan
+                    int numStep1 = pedirStep();
+                    //ejecuto algoritmo de pi con el parametro numstep, paramentro de reducion o no
+                break;
                 }
                 } while (opcion_1 != 3);
             
@@ -64,38 +54,26 @@ void menu(){
                 
             case 2:
                 
-                int opcion_3;
+                int opcion_2;
                 do
                 {
-                    opcion_3 = menu_nivel_2();
-                switch (opcion_3)
+                    opcion_2 = menu_nivel_2();
+                switch (opcion_2)
                 {
                 case 1:
-                    int n1;
-                    printf("\n");
-                    printf("Ingresa el tamaño de la matriz:\n");
-                    printf("\n");
-                    scanf("%d", &n1);
-                    //ejecuto algoritmo de pi con el parametro numstep
-                    break;
-                
                 case 2:
-                    int n2;
-                    printf("\n");
-                    printf("Ingresa el tamaño de la matriz:\n");
-                    printf("\n");
-                    scanf("%d", &n2);
+                    int n = pedirTamMatrix();
                     break;
-                     //ejecuto algoritmo de pi con el parametro numstep // caso 1 y 2 se juntan
+                     //ejecuto algoritmo de mtrix con el parametro n y bollean reducion
                 }
-                } while (opcion_1 != 3);
+                } while (opcion_2 != 3);
             
                 break;
                 
             case 3:
                 printf("Opcion 3\n");
                     printf("\n");  
-                    printf("Aca se describe el harware de la compu:\n");
+                    printf("Aca se describe el harware de la compu:\n"); // datos del cpu
                     printf("\n");  
                     sleep(1);
                 break;
@@ -129,4 +107,22 @@ int menu_nivel_2(){
     scanf("%d", &opcion); // pide al usuario que ingrese lo que desea hacer
     printf("\n");
     return opcion;
+}
+
+int pedirStep(){
+    int step;
+    printf("\n");
+    printf("Ingresa numero de step:\n");
+    printf("\n");
+    scanf("%d", &step);   
+    return step;
+}
+
+int pedirTamMatrix(){
+    int n;
+    printf("\n");
+    printf("Ingresa tamaño de matriz:\n");
+    printf("\n");
+    scanf("%d", &n);   
+    return n;
 }
