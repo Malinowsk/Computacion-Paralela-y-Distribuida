@@ -7,6 +7,7 @@
 void showTimeSeq();
 void showTimePrl();
 
+
 void main(){
   omp_set_num_threads(omp_get_num_procs()); //Setea la cantidad de Threads a usar. No debe superar a la cantidad física de cores
   float tiempo_inicial= omp_get_wtime();
