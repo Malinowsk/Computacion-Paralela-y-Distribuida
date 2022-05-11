@@ -6,9 +6,10 @@
 #include <time.h>
 
 #define SQUARE 2
-#define N 5 //La cantidad de muestras(tiempos)
 
-static long num_steps = 10000; //400000000
+#define N 8 //La cantidad de muestras(tiempos)
+
+long num_steps = 10000; //400000000
 double step;
 
 
@@ -23,76 +24,39 @@ double getStdDeviation(double*nums, double avg);
 double seleccionador (int num, int i);
 
 
-int main(){
+void pi(int n_steps,int opcion){
+
+  num_steps = n_steps;
 
   double*nums = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos
+  double*promedios = (double*)malloc(omp_get_num_procs()*sizeof(double));
+
+  printf("\n\t\tcon un num_step de %d \n\n" , num_steps);
 
 
-  printf("\ncon un num_step de %d \n" , num_steps);
-  
-/*
-
-  printf("\nsecuencial sin pragmas (normal)\n");
-  printf("\n");
-   
-  generatorPI();
-
-
-  printf("\nparalelismo con pragmas\n");
-  printf("\n");
   for(int i = 0 ; i < omp_get_num_procs() ; i++){
-
-    sleep(4);
-    printf("\n");
-    generatorPInrc(i+1);
-    printf("\n");
-  }
-
-    for(int i = 0 ; i < omp_get_num_procs() ; i++){
     sleep(4);  
-    
-
-    printf("\n");
-    }
-*/
-        int opcion ;
-    
-        printf("\n");
-        printf("Elija una opcion del menu:\n");
-        printf("\n");
-        printf("    1- critical\n");
-        printf("    2- atomic\n");
-        printf("    3- redoccuion\n");
-        printf("    4- reduccion dinamic\n");
-        printf("\n");
-        printf("Ingrese una opción:  ");
-        scanf("%d", &opcion); // pide al usuario que ingrese lo que desea hacer
-        printf("\n");
-
-    for(int i = 0 ; i < omp_get_num_procs() ; i++){
-        sleep(4);  
-        printf("reduccion con %d procesadores\n\n", (i+1));
-        for(int j = 0 ; j < N ; j++){
-            nums[j] = seleccionador(opcion,i+1);
-            printf("\n");
-        }
-        double avg = getAverage(nums); 
-
-        printf("El promedio de los tiempos es de: %lf\n\n", avg);
-
-        //printf("El desvio estandar de los tiempos es de: %lf\n ", getStdDeviation(nums,avg));
-
+    printf("\nUsando %d procesador: \n\n", (i+1));
+    for(int j = 0 ; j < N ; j++){
+        nums[j] = seleccionador(opcion,i+1);
     }
 
-/*
-    for(int i = 0 ; i < omp_get_num_procs() ; i++){
-    sleep(4);  
-    generatorPIrD(1+1);
-  }
-    
-  */
+    printf("\n");
+    double avg = getAverage(nums); 
+    //printf("El promedio de los tiempos es de: %lf\n\n", avg);
+    promedios[i]=avg;
 
-  return 0;
+    //printf("El desvio estandar de los tiempos es de: %lf\n ", getStdDeviation(nums,avg));
+  }
+
+  for(int i = 0 ; i < omp_get_num_procs() ; i++){
+    
+    printf("Promedio de tiempo con %d procesador: %lf segundos\n\n", (i+1), promedios[i]);
+
+  }
+
+  getchar();
+
 }
 
 double seleccionador(int num, int i){
@@ -100,10 +64,10 @@ double seleccionador(int num, int i){
      switch (num)
                 {
                 case 1:
-                    return generatorPInrc(i);
+                    return generatorPInra(i);
                     break;
                 case 2:
-                    return generatorPInra(i);
+                    return generatorPIr(i);
                     break;
                 case 3:
                     return generatorPIr(i);
@@ -153,7 +117,7 @@ double generatorPIr(int n){
 
   double tiempo_final= omp_get_wtime();
   
-  printf(" reduccion %lf \n",tiempo_final-tiempo_inicial);
+  printf("\n reduccion %lf \n",tiempo_final-tiempo_inicial);
   return tiempo_final-tiempo_inicial;
 }
 
@@ -201,7 +165,7 @@ double generatorPInra(int n){
    }
    pi = step * sum;
    float tiempo_final= omp_get_wtime();
-  printf("no reduccion %f atomic     \n",tiempo_final-tiempo_inicial);
+  printf("\n No reduccion (atomic), tiempo: %f\n",tiempo_final-tiempo_inicial);
   return tiempo_final-tiempo_inicial;
 }
 
