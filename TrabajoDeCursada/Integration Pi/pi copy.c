@@ -23,34 +23,26 @@ int main(){
   generatorPI();
 
 
-  printf("\nsecuencial con pragmas\n");
+  printf("\nparalelismo con pragmas\n");
   printf("\n");
-  
-  sleep(4);
-  generatorPInrc(1);  
-  printf("\n");
-  sleep(4);
-  generatorPInra(1); 
-  printf("\n");
-  sleep(4);
-  generatorPIr(1);
-
-
-  printf("\nparalelo\n");
-
-  sleep(4);
-  printf("\n");
-  generatorPInrc(2);
-  printf("\n");
-  sleep(4);  
-  generatorPInra(2);
-  
-  printf("\n");
-  sleep(4);  
-  generatorPIr(2);
-  printf("\n");
-  sleep(4);  
-  generatorPIrD(2);
+  for(int i = 0 ; i < omp_get_num_procs ; i++){
+    printf("1\n");
+  }
+    sleep(4);
+    printf("\n");
+    generatorPInrc(2);
+    printf("\n");
+    sleep(4);  
+    generatorPInra(2);
+    
+    printf("\n");
+    sleep(4);  
+    generatorPIr(2);
+    printf("\n");
+    sleep(4);  
+    generatorPIrD(2);
+    
+  }
 
   return 0;
 }
