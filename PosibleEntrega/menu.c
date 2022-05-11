@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>  // para usar el system
 #include <unistd.h>  //  para usar el sleep
+#include <string.h>
 #include "pi.h"
 
 void menu_nivel_1();
@@ -78,8 +79,20 @@ void menu_nivel_1(){
             case 3:
                 printf("Opcion 3\n");
                     printf("\n");  
-                    printf("Aca se describe el harware de la compu:\n"); // datos del cpu
-                    printf("\n");  
+                    printf("Aca se describe el harware de la compu:\n\n"); // datos del cpu
+                    system("cat /proc/cpuinfo | grep 'vendor' | uniq");
+                    system("cat /proc/cpuinfo | grep 'model name' | uniq");
+                    system("cat /proc/cpuinfo | grep processor | wc -l");
+                    system("cat /proc/cpuinfo | grep 'core id'");
+                    
+                    system("cat /proc/cpuinfo");
+
+                    getchar();
+                    
+                    printf("\n"); 
+
+                    getchar();
+                    
                     sleep(1);
                 break;
 
