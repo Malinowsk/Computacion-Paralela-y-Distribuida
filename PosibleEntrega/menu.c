@@ -18,68 +18,71 @@ int main(){
 
 void menu_nivel_1(){
 
-    int opcion ;    
+    int option ;    
     
 
     do {
-        system("clear"); // limpia la pantalla
+        system("clear"); // Limpia la Pantalla
 
         printf("\n");
         printf("Elija una opcion del menu:\n");
         printf("\n");
-        printf("    1- pi\n");
-        printf("    2- matrix\n");
-        printf("    3- hardware\n");
+        printf("    1- Calculo de Pi\n");
+        printf("    2- Multiplicacion de Matrices\n");
+        printf("    3- Hardware del CPU\n");
         printf("    4- Salir\n");
         printf("\n");
         printf("Ingrese una opción:  ");
-        scanf("%d", &opcion); // pide al usuario que ingrese lo que desea hacer
+        scanf("%d", &option); // Pide al usuario que ingrese lo que desea hacer
         printf("\n");
 
-        switch (opcion) {
+        switch (option) {
             case 1:  // pi
-
-                int opcion_1;
+            {
+                int option_1;
                 do
                 {
-                    opcion_1 = menu_nivel_2();
-                switch (opcion_1)
+                    option_1 = menu_nivel_2();
+                switch (option_1)
                 {
                 case 1:
                 case 2:
-                    int numStep1 = pedirStep();
-                    pi(numStep1,opcion_1);
-                    getchar();
-                    
+                   { 
+                      int numStep1 = pedirStep();
+                      pi(numStep1,option_1);
+                      getchar();
+                   }
                 break;
                 }
-                } while (opcion_1 != 3);
+                } while (option_1 != 3);
             
-                break;
-                
+            break;
+            }   
             case 2:
-                
-                int opcion_2;
+            {    
+                int option_2;
                 do
                 {
-                    opcion_2 = menu_nivel_2();
-                switch (opcion_2)
+                    option_2 = menu_nivel_2();
+                switch (option_2)
                 {
                 case 1:
                 case 2:
+                  {
                     int n = pedirTamMatrix();
-                    //ejecuto algoritmo de mtrix con el parametro n y bollean reducion
+                    //Ejecuto algoritmo de matrix con el parametro n y bollean reduction
                     getchar();
                     break;
+                  }
                 }
-                } while (opcion_2 != 3);
+                } while (option_2 != 3);
             
-                break;
-                
+            break;
+            }    
             case 3:
-                printf("Opcion 3\n");
+            {       printf("Opcion 3\n");
                     printf("\n");  
-                    printf("Aca se describe el harware de la compu:\n\n"); // datos del cpu
+                    printf("Aca se describe el hardware de la CPU:\n\n"); // datos del cpu
                     system("cat /proc/cpuinfo | grep 'vendor' | uniq");
                     system("cat /proc/cpuinfo | grep 'model name' | uniq");
                     system("cat /proc/cpuinfo | grep processor | wc -l");
@@ -94,47 +97,47 @@ void menu_nivel_1(){
                     getchar();
                     
                     sleep(1);
-                break;
-
+            break;
+            }
             case 4:
-            	printf("Fin de la ejecución\n");       
+            {	printf("Fin de la ejecución\n");       
                 break;
+            }
         }  
 
         printf("\n");
 
-        sleep(1); // espera 2 segundos
+        sleep(1); // Espera 2 segundos
 
     }
-    while (opcion!=4);    // ejecuta el do hasta que la variable opcion no sea 4
+    while (option!=4);    // Ejecuta el do-while hasta que la variable option no sea 4
     
 }
-
 int menu_nivel_2(){
-    int opcion;
-    system("clear"); // limpia la pantalla
+    int option;
+    system("clear"); // Limpia la Pantalla
 
     printf("\n");
     printf("Que tipo de paralelismo desea usar:\n");
     printf("\n");
-    printf("    1- sin reduccion\n");
-    printf("    2- con reduccion\n");
-    printf("    3- atras\n");
+    printf("    1- Sin reduccion\n");
+    printf("    2- Con reduccion\n");
+    printf("    3- Atras\n");
     printf("\n");
     printf("Ingrese una opción:  ");
-    scanf("%d", &opcion); // pide al usuario que ingrese lo que desea hacer
+    scanf("%d", &option); // Pide al usuario que ingrese lo que desea hacer
     printf("\n");
-    return opcion;
+    return option;
 }
 
 int pedirStep(){
-    system("clear"); // limpia la pantalla
+    system("clear"); // Limpia la Pantalla
     int step;
     printf("\n");
     printf("Ingresa numero de step:\n");
     printf("\n");
     scanf("%d", &step);
-    system("clear"); // limpia la pantalla   
+    system("clear"); // Limpia la Pantalla   
     return step;
 }
 

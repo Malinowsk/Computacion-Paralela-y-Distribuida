@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
-#include <unistd.h>  //  para usar el sleep
+#include <unistd.h>  //  Para usar el sleep
 #include <math.h>
 #include <time.h>
 
@@ -13,32 +13,32 @@ long num_steps = 10000; //400000000
 double step;
 
 
-void generatorPI();
+double generatorPI(); //Donde se invoca esta función ??
 double generatorPIr(int n);
 double generatorPInra(int n);
 double generatorPInrc(int n);
-void generatorPIr2(int n);
+//void generatorPIr2(int n);
 double generatorPIrD(int n);
 double getAverage(double*nums);
 double getStdDeviation(double*nums, double avg);
-double seleccionador (int num, int i);
+double picker (int num, int i);
 
 
-void pi(int n_steps,int opcion){
+void pi(int n_steps,int option){
 
   num_steps = n_steps;
 
   double*nums = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos
   double*promedios = (double*)malloc(omp_get_num_procs()*sizeof(double));
 
-  printf("\n\t\tcon un num_step de %d \n\n" , num_steps);
+  printf("\nCon un numero de pasos de %ld , se obtiene: \n\n" , num_steps);
 
 
   for(int i = 0 ; i < omp_get_num_procs() ; i++){
     sleep(4);  
-    printf("\nUsando %d procesador: \n\n", (i+1));
+    printf("\nUsando %d procesador/es: \n\n", (i+1));
     for(int j = 0 ; j < N ; j++){
-        nums[j] = seleccionador(opcion,i+1);
+        nums[j] = picker(option,i+1);
     }
 
     printf("\n");
@@ -46,7 +46,9 @@ void pi(int n_steps,int opcion){
     //printf("El promedio de los tiempos es de: %lf\n\n", avg);
     promedios[i]=avg;
 
-    //printf("El desvio estandar de los tiempos es de: %lf\n ", getStdDeviation(nums,avg));
+    printf("El desvio estandar de los tiempos es de: %lf\n ", getStdDeviation(nums,avg));
+    
+    
   }
 
   for(int i = 0 ; i < omp_get_num_procs() ; i++){
@@ -54,12 +56,13 @@ void pi(int n_steps,int opcion){
     printf("Promedio de tiempo con %d procesador: %lf segundos\n\n", (i+1), promedios[i]);
 
   }
-
+  printf("Continuar");
+  sleep(2);
   getchar();
 
 }
 
-double seleccionador(int num, int i){
+double picker(int num, int i){
      
      switch (num)
                 {
@@ -81,7 +84,7 @@ double seleccionador(int num, int i){
          return 1.00;
 }
 
-/*
+
 double getStdDeviation(double*nums, double avg){
 
 	double add_variance = 0; //Aca se va sumando los cuadrados de la diferencia del num actual y avg
@@ -90,7 +93,7 @@ double getStdDeviation(double*nums, double avg){
 	
 	return sqrt(add_variance/N); //Se retorna la raiz cuadrada del cociente entre la suma acumulada y N
 
-}*/
+}
 
 double getAverage(double*nums) {
 
@@ -103,7 +106,7 @@ double getAverage(double*nums) {
 
 
 double generatorPIr(int n){
-  double tiempo_inicial= omp_get_wtime();
+  double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
   double x, pi , sum = 0.0;
   step = 1.0 / (double) num_steps;
   omp_set_num_threads(n); //Setea la cantidad de Threads a usar. No debe superar a la cantidad física de cores
@@ -115,15 +118,16 @@ double generatorPIr(int n){
   }
   pi = step * sum;
 
-  double tiempo_final= omp_get_wtime();
+  double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
+  double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+  printf("\n Reduction %lf \n",total_time);
   
-  printf("\n reduccion %lf \n",tiempo_final-tiempo_inicial);
-  return tiempo_final-tiempo_inicial;
+  return total_time;
 }
 
 
 double generatorPInrc(int n){
-  float tiempo_inicial= omp_get_wtime();
+  double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
 
   double x, pi , sum= 0.0;
   step = 1.0 / (double) num_steps;
@@ -139,18 +143,19 @@ double generatorPInrc(int n){
 
   pi = step * sum;
 
-  float tiempo_final= omp_get_wtime();
- 
- 
-  printf("no reduccion %f critical \n",tiempo_final-tiempo_inicial);
-  return tiempo_final-tiempo_inicial;
+  double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
+  double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+  printf("\n No reduction Critical %lf \n",total_time);
+  
+  return total_time;
+
   }
 
 
 
 double generatorPInra(int n){
-  float tiempo_inicial= omp_get_wtime();
-
+   
+   double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
 
    double pi , sum = 0.0;
    step = 1.0 / (double) num_steps;
@@ -164,15 +169,18 @@ double generatorPInra(int n){
         sum = sum + x;
    }
    pi = step * sum;
-   float tiempo_final= omp_get_wtime();
-  printf("\n No reduccion (atomic), tiempo: %f\n",tiempo_final-tiempo_inicial);
-  return tiempo_final-tiempo_inicial;
+   
+   double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
+   double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+   printf("\n No reduction Atomic %lf \n",total_time);
+   return total_time;
 }
 
 
-void generatorPI(){
+double generatorPI(){
    
-    float tiempo_inicial= omp_get_wtime();
+    double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
+
     double x, pi , sum = 0.0;
     step = 1.0 / (double) num_steps;
     for(int i = 0 ; i < num_steps ; i++){
@@ -182,9 +190,13 @@ void generatorPI(){
     }
     pi = step * sum;
   
-    float tiempo_final= omp_get_wtime();
+    double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
+    double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+    printf("\n Secuencial %lf \n",total_time);
+
+   return total_time;
   
-    printf("comun-seq %f  The pi's valor : %lf\n",tiempo_final-tiempo_inicial,pi);
+    
 }
 
 /*
@@ -210,7 +222,7 @@ void generatorPIr2(int n){
 
 
 double generatorPIrD(int n){
-  float tiempo_inicial= omp_get_wtime();
+  double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
   double x, pi , sum = 0.0;
   step = 1.0 / (double) num_steps;
   omp_set_num_threads(n); //Setea la cantidad de Threads a usar. No debe superar a la cantidad física de cores
@@ -222,8 +234,9 @@ double generatorPIrD(int n){
   }
   pi = step * sum;
 
-  float tiempo_final= omp_get_wtime();
-  
-  printf(" reduccion %f  \n",tiempo_final-tiempo_inicial );
-  return tiempo_final-tiempo_inicial;
+  double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
+  double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+  printf("\n Reduction con Planificación Dinamica %lf \n",total_time);
+
+   return total_time;
 }
