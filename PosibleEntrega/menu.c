@@ -3,11 +3,12 @@
 #include <unistd.h>  //  para usar el sleep
 #include <string.h>
 #include "pi.h"
+#include "matrix.h"
 
 void menu_nivel_1();
 int menu_nivel_2();
-int pedirStep();
-int pedirTamMatrix();
+int getStep();
+int getSizeMatrix();
 
 int main(){
 
@@ -48,7 +49,7 @@ void menu_nivel_1(){
                 case 1:
                 case 2:
                    { 
-                      int numStep1 = pedirStep();
+                      int numStep1 = getStep();
                       pi(numStep1,option_1);
                       getchar();
                    }
@@ -69,8 +70,8 @@ void menu_nivel_1(){
                 case 1:
                 case 2:
                   {
-                    int n = pedirTamMatrix();
-                    //Ejecuto algoritmo de matrix con el parametro n y bollean reduction
+                    int n = getSizeMatrix();
+                    matrix(n,option_2); 
                     getchar();
                     break;
                   }
@@ -130,7 +131,7 @@ int menu_nivel_2(){
     return option;
 }
 
-int pedirStep(){
+int getStep(){
     system("clear"); // Limpia la Pantalla
     int step;
     printf("\n");
@@ -141,7 +142,7 @@ int pedirStep(){
     return step;
 }
 
-int pedirTamMatrix(){
+int getSizeMatrix(){
     int n;
     printf("\n");
     printf("Ingresa tamaño de matriz:\n");
