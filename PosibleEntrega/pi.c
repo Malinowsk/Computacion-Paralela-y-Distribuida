@@ -17,8 +17,9 @@ void pi(int n_steps,int option){
 
   double*nums = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos
   double*promedios = (double*)malloc(omp_get_num_procs()*sizeof(double));
+  double*devioEstandar = (double*)malloc(omp_get_num_procs()*sizeof(double));
 
-  printf("\nCon un numero de pasos de %ld , se obtiene: \n\n" , n_steps);
+  printf("\nCon un numero de pasos de %d , se obtiene: \n\n" , n_steps);
 
 
   for(int i = 0 ; i < omp_get_num_procs() ; i++){
@@ -28,20 +29,18 @@ void pi(int n_steps,int option){
         nums[j] = pickerPi(option,i+1,n_steps);
     }
 
-    printf("\n");
+    //printf("\n");
     double avg = getAverage(nums,N); 
     //printf("El promedio de los tiempos es de: %lf\n\n", avg);
     promedios[i]=avg;
-
-    printf("El desvio estandar de los tiempos es de: %f\n ", getStdDeviation(nums,avg,N));
+    devioEstandar[i]=getStdDeviation(nums,avg,N);
     
     
   }
 
   for(int i = 0 ; i < omp_get_num_procs() ; i++){
-    
+    printf("El desvio estandar con %d procesador: %lf segundos\t\t", (i+1), devioEstandar[i]);
     printf("Promedio de tiempo con %d procesador: %lf segundos\n\n", (i+1), promedios[i]);
-
   }
   printf("Continuar");
   sleep(2);
@@ -87,7 +86,7 @@ double generatorPIr(int n , int n_steps){
 
   double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
   double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-  printf("\n Reduction %lf \n",total_time);
+  printf("\n Reduction %lf seg \n",total_time);
   
   return total_time;
 }
@@ -139,7 +138,7 @@ double generatorPInra(int n , int n_steps){
    
    double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
    double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-   printf("\n No reduction Atomic %lf \n",total_time);
+   printf("\n No reduction Atomic %lf seg \n",total_time);
    return total_time;
 }
 
