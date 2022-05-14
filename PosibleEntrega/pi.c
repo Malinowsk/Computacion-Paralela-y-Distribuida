@@ -38,9 +38,11 @@ void pi(int n_steps,int option){
     
   }
 
+  printf("\n");
+
   for(int i = 0 ; i < omp_get_num_procs() ; i++){
-    printf("El desvio estandar con %d procesador: %lf segundos\t\t", (i+1), devioEstandar[i]);
-    printf("Promedio de tiempo con %d procesador: %lf segundos\n\n", (i+1), promedios[i]);
+    printf("El desvio estandar con %d procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t\t", (i+1), devioEstandar[i]);
+    printf("Promedio de tiempo con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", (i+1), promedios[i]);
   }
   printf("Continuar");
   sleep(2);
@@ -86,7 +88,7 @@ double generatorPIr(int n , int n_steps){
 
   double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
   double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-  printf("\n Reduction %lf seg \n",total_time);
+  printf("\n Reduction \e[38;2;0;255;0m \e[48;2;0;0;0m %lf \e[0m seg \n",total_time);
   
   return total_time;
 }
@@ -138,7 +140,7 @@ double generatorPInra(int n , int n_steps){
    
    double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
    double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-   printf("\n No reduction Atomic %lf seg \n",total_time);
+   printf("\n No reduction Atomic \e[38;2;0;255;0m \e[48;2;0;0;0m %lf \e[0m seg \n",total_time);
    return total_time;
 }
 
