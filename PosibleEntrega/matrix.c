@@ -53,10 +53,10 @@ double pickerMatrix(int num, int p , int size_matrix , int**matrix_A , int**matr
      switch (num)
                 {
                 case 1:
-                    return multMatrixnra(matrix_A,matrix_B,p,size_matrix);
+                    return multMatrix(matrix_A,matrix_B,p,size_matrix);
                     break;
                 case 2:
-                    return multMatrixr(matrix_A,matrix_B,p,size_matrix);
+                    return multMatrixnra(matrix_A,matrix_B,p,size_matrix);
                     break;
                 case 3:
                     return multMatrixr(matrix_A,matrix_B,p,size_matrix);
@@ -111,31 +111,33 @@ double multMatrix(int**matrix_A , int**matrix_B , int p, int size_matrix){
   int**matrix_Out = generateMatrix(N,1); //declaracion de matriz salida
 
   //Estas impresiones, junto con la de pi que no está agregada, discutir si mostrar o no
-  printf("Matriz A :\n");
-  showMatrix(matrix_A , N);  //imprimir matriz A
-  printf("Matriz A :\n");
-  showMatrix(matrix_B , N);  //imprimir matriz B
-
+  /*printf("Matriz A :\n");
+  showMatrix(matrix_A , size_matrix);  //imprimir matriz A
+  printf("\n\n");
+  printf("Matriz B :\n");
+  showMatrix(matrix_B , size_matrix);  //imprimir matriz B
+  */
   //Aquí se va a ejecutar el código de la multiplicación
 
-  /*for (int a = 0; a < n; a++) {
+  for (int a = 0; a < size_matrix; a++) {
   // Dentro recorremos las filas de la primera (A)
-      for (int i = 0; i < n; i++) {
+      for (int i = 0; i < size_matrix; i++) {
           int adder = 0;
           // Y cada columna de la primera (A)
-              for (int j = 0; j < n; j++) {
+              for (int j = 0; j < size_matrix; j++) {
               // Multiplicamos y sumamos resultado
                   adder += matrix_A[i][j] * matrix_B[j][a];
               }
           // Lo acomodamos dentro del producto
           matrix_Out[i][a] = adder;
       }
-  }*/
+  }
 
   double time_end= omp_get_wtime();
   printf("La matriz de salida es :\n");
-  showMatrix(matrix_Out , N);
-
+  /*showMatrix(matrix_Out , size_matrix);
+  printf("\n\n");
+  */    
   double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
   printf("\n Secuencial %lf \n",total_time);
 
@@ -146,35 +148,35 @@ double multMatrix(int**matrix_A , int**matrix_B , int p, int size_matrix){
  double multMatrixr(int**matrix_A , int**matrix_B , int p, int size_matrix){
     double time_start= omp_get_wtime();
     omp_set_num_threads(p);
-    int**matrix_Out = generateMatrix(N,1); //declaracion de matriz salida
+    int**matrix_Out = generateMatrix(size_matrix,1); //declaracion de matriz salida
 
     //Estas impresiones, junto con la de pi que no está agregada, discutir si mostrar o no
+    /*printf("Matriz A :\n");
+    showMatrix(matrix_A , size_matrix);  //imprimir matriz A
     printf("Matriz A :\n");
-    showMatrix(matrix_A , N);  //imprimir matriz A
-    printf("Matriz A :\n");
-    showMatrix(matrix_B , N);  //imprimir matriz B
-
+    showMatrix(matrix_B , size_matrix);  //imprimir matriz B
+    */
     //Aquí se va a ejecutar el código de la multiplicación
 
-    /*pragma omp parallel for
-    for (int a = 0; a < n; a++) {
-      //#pragma omp parallel for
-      for (int i = 0; i < n; i++) {
-          int adder = 0;
-              #pragma omp parallel for reduction(+:adder) 
-              for (int j = 0; j < n; j++) {
-              // Multiplicamos y sumamos resultado
-                  adder += matrix_A[i][j] * matrix_B[j][a];
+    #pragma omp parallel for
+        for (int a = 0; a < size_matrix; a++) {
+          #pragma omp parallel for
+              for (int i = 0; i < size_matrix; i++) {
+                  int adder = 0;
+                      #pragma omp parallel for reduction(+:adder) 
+                          for (int j = 0; j < size_matrix; j++) {
+                          // Multiplicamos y sumamos resultado
+                              adder += matrix_A[i][j] * matrix_B[j][a];
+                          }
+                  // Lo acomodamos dentro del producto
+                  matrix_Out[i][a] = adder;
               }
-          // Lo acomodamos dentro del producto
-          matrix_Out[i][a] = adder;
-      }
-    }
-    */
+        }
+    
     double time_end= omp_get_wtime();
-    printf("La matriz de salida es :\n");
-    showMatrix(matrix_Out , N);
-
+    /*printf("La matriz de salida es :\n");
+    showMatrix(matrix_Out , size_matrix);
+    */
     double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
     printf("\n Reduction %lf \n",total_time);
   
@@ -184,31 +186,141 @@ double multMatrix(int**matrix_A , int**matrix_B , int p, int size_matrix){
 
 
 double multMatrixnra(int**matrix_A , int**matrix_B , int p, int size_matrix){
-    double time_start= omp_get_wtime();
-    omp_set_num_threads(p);
-    int**matrix_Out = generateMatrix(N,1); //declaracion de matriz salida
-
-    //Estas impresiones, junto con la de pi que no está agregada, discutir si mostrar o no
-    printf("Matriz A :\n");
-    showMatrix(matrix_A , N);  //imprimir matriz A
-    printf("Matriz A :\n");
-    showMatrix(matrix_B , N);  //imprimir matriz B
-
-    //Aquí se va a ejecutar el código de la multiplicación
-
-    /*
-    */
-
-    double time_end= omp_get_wtime();
-    printf("La matriz de salida es :\n");
-    showMatrix(matrix_Out , N);
-
-    double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-    printf("\n No Reduction Atomic%lf \n",total_time);
   
-    return total_time;
+  double time_start= omp_get_wtime();
+  omp_set_num_threads(p);
+  int**matrix_Out = generateMatrix(size_matrix,1); //declaracion de matriz salida
+
+  //Estas impresiones, junto con la de pi que no está agregada, discutir si mostrar o no
+  /*printf("Matriz A :\n");
+  showMatrix(matrix_A , size_matrix);  //imprimir matriz A
+  printf("\n\n");
+  printf("Matriz B :\n");
+  showMatrix(matrix_B , size_matrix);  //imprimir matriz B
+  */
+  //Aquí se va a ejecutar el código de la multiplicación
+
+  #pragma omp parallel for 
+      for (int a = 0; a < size_matrix; a++) {
+      // Dentro recorremos las filas de la primera (A)
+        #pragma omp parallel for
+          for (int i = 0; i < size_matrix; i++) {
+              int adder = 0;
+              // Y cada columna de la primera (A)
+                  #pragma omp parallel for
+                      for (int j = 0; j < size_matrix; j++) {
+                      // Multiplicamos y sumamos resultado
+                          #pragma omp atomic 
+                            adder += matrix_A[i][j] * matrix_B[j][a];
+                      }
+              // Lo acomodamos dentro del producto
+              matrix_Out[i][a] = adder;
+          }
+      }
+
+  double time_end= omp_get_wtime();
+  printf("La matriz de salida es :\n");
+  /*showMatrix(matrix_Out , size_matrix);
+  printf("\n\n");
+  */
+  double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+  printf("\n Atomic 1 %lf \n",total_time);
+
+  return total_time;
 
   }
+
+
+double multMatrixnra2(int**matrix_A , int**matrix_B , int p, int size_matrix){
+  
+  double time_start= omp_get_wtime();
+  omp_set_num_threads(p);
+  int**matrix_Out = generateMatrix(N,1); //declaracion de matriz salida
+
+  //Estas impresiones, junto con la de pi que no está agregada, discutir si mostrar o no
+  /*printf("Matriz A :\n");
+  showMatrix(matrix_A , size_matrix);  //imprimir matriz A
+  printf("\n\n");
+  printf("Matriz B :\n");
+  showMatrix(matrix_B , size_matrix);  //imprimir matriz B
+  */
+  //Aquí se va a ejecutar el código de la multiplicación
+
+  #pragma omp parallel for 
+      for (int a = 0; a < size_matrix; a++) {
+      // Dentro recorremos las filas de la primera (A)
+          for (int i = 0; i < size_matrix; i++) {
+              int adder = 0;
+              // Y cada columna de la primera (A)
+                      for (int j = 0; j < size_matrix; j++) {
+                      // Multiplicamos y sumamos resultado
+                          #pragma omp atomic 
+                            adder += matrix_A[i][j] * matrix_B[j][a];
+                      }
+              // Lo acomodamos dentro del producto
+              matrix_Out[i][a] = adder;
+          }
+      }
+
+  double time_end= omp_get_wtime();
+  printf("La matriz de salida es :\n");
+  /*showMatrix(matrix_Out , size_matrix);
+  printf("\n\n");
+  */
+  double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+  printf("\n Atomic 2 %lf \n",total_time);
+
+  return total_time;
+
+  }
+
+
+double multMatrixnra3(int**matrix_A , int**matrix_B , int p, int size_matrix){
+  
+  double time_start= omp_get_wtime();
+  omp_set_num_threads(p);
+  int**matrix_Out = generateMatrix(N,1); //declaracion de matriz salida
+
+  //Estas impresiones, junto con la de pi que no está agregada, discutir si mostrar o no
+  /*printf("Matriz A :\n");
+  showMatrix(matrix_A , size_matrix);  //imprimir matriz A
+  printf("\n\n");
+  printf("Matriz B :\n");
+  showMatrix(matrix_B , size_matrix);  //imprimir matriz B
+  */
+  //Aquí se va a ejecutar el código de la multiplicación
+
+  #pragma omp parallel for 
+      for (int a = 0; a < size_matrix; a++) {
+      // Dentro recorremos las filas de la primera (A)
+        #pragma omp parallel for 
+          for (int i = 0; i < size_matrix; i++) {
+              int adder = 0;
+              // Y cada columna de la primera (A)
+                      for (int j = 0; j < size_matrix; j++) {
+                      // Multiplicamos y sumamos resultado
+                          #pragma omp atomic 
+                            adder += matrix_A[i][j] * matrix_B[j][a];
+                      }
+              // Lo acomodamos dentro del producto
+              matrix_Out[i][a] = adder;
+          }
+      }
+
+  double time_end= omp_get_wtime();
+  printf("La matriz de salida es :\n");
+  /*showMatrix(matrix_Out , size_matrix);
+  printf("\n\n");
+  */
+  double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+  printf("\n Atomic 3 %lf \n",total_time);
+
+  return total_time;
+
+  }
+
+
+
 
 double multMatrixnrc(int**matrix_A , int**matrix_B , int p, int size_matrix){
     double time_start= omp_get_wtime();
@@ -223,40 +335,156 @@ double multMatrixnrc(int**matrix_A , int**matrix_B , int p, int size_matrix){
 
     //Aquí se va a ejecutar el código de la multiplicación
 
-    /*
-    */
+    #pragma omp parallel for 
+      for (int a = 0; a < size_matrix; a++) {
+      // Dentro recorremos las filas de la primera (A)
+        #pragma omp parallel for
+          for (int i = 0; i < size_matrix; i++) {
+              int adder = 0;
+              // Y cada columna de la primera (A)
+                  #pragma omp parallel for
+                      for (int j = 0; j < size_matrix; j++) {
+                      // Multiplicamos y sumamos resultado
+                          #pragma omp critical 
+                            adder += matrix_A[i][j] * matrix_B[j][a];
+                      }
+              // Lo acomodamos dentro del producto
+              matrix_Out[i][a] = adder;
+          }
+      }
 
     double time_end= omp_get_wtime();
     printf("La matriz de salida es :\n");
     showMatrix(matrix_Out , N);
 
     double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-    printf("\n No Reduction Critical%lf \n",total_time);
+    printf("\n Critical%lf \n",total_time);
   
     return total_time;
 
   }
 
+
+double multMatrixnrc2(int**matrix_A , int**matrix_B , int p, int size_matrix){
+    double time_start= omp_get_wtime();
+    omp_set_num_threads(p);
+    int**matrix_Out = generateMatrix(size_matrix,1); //declaracion de matriz salida
+
+    //Estas impresiones, junto con la de pi que no está agregada, discutir si mostrar o no
+    /*printf("Matriz A :\n");
+    showMatrix(matrix_A , size_matrix);  //imprimir matriz A
+    printf("Matriz A :\n");
+    showMatrix(matrix_B , size_matrix);  //imprimir matriz B
+    */
+    //Aquí se va a ejecutar el código de la multiplicación
+
+    #pragma omp parallel for 
+      for (int a = 0; a < size_matrix; a++) {
+      // Dentro recorremos las filas de la primera (A)
+        
+          for (int i = 0; i < size_matrix; i++) {
+              int adder = 0;
+              // Y cada columna de la primera (A)
+                  
+                      for (int j = 0; j < size_matrix; j++) {
+                      // Multiplicamos y sumamos resultado
+                          #pragma omp critical 
+                            adder += matrix_A[i][j] * matrix_B[j][a];
+                      }
+              // Lo acomodamos dentro del producto
+              matrix_Out[i][a] = adder;
+          }
+      }
+
+    double time_end= omp_get_wtime();
+    /*printf("La matriz de salida es :\n");
+    showMatrix(matrix_Out , size_matrix);
+    */
+    double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+    printf("\n Critical 2%lf \n",total_time);
+  
+    return total_time;
+
+  }
+
+
+double multMatrixnrc3(int**matrix_A , int**matrix_B , int p, int size_matrix){
+    double time_start= omp_get_wtime();
+    omp_set_num_threads(p);
+    int**matrix_Out = generateMatrix(size_matrix,1); //declaracion de matriz salida
+
+    //Estas impresiones, junto con la de pi que no está agregada, discutir si mostrar o no
+    /*printf("Matriz A :\n");
+    showMatrix(matrix_A , size_matrix);  //imprimir matriz A
+    printf("Matriz A :\n");
+    showMatrix(matrix_B , size_matrix);  //imprimir matriz B
+    */
+    //Aquí se va a ejecutar el código de la multiplicación
+
+    #pragma omp parallel for 
+      for (int a = 0; a < size_matrix; a++) {
+      // Dentro recorremos las filas de la primera (A)
+         #pragma omp parallel for
+          for (int i = 0; i < size_matrix; i++) {
+              int adder = 0;
+              // Y cada columna de la primera (A)
+                  
+                      for (int j = 0; j < size_matrix; j++) {
+                      // Multiplicamos y sumamos resultado
+                          #pragma omp critical 
+                            adder += matrix_A[i][j] * matrix_B[j][a];
+                      }
+              // Lo acomodamos dentro del producto
+              matrix_Out[i][a] = adder;
+          }
+      }
+
+    double time_end= omp_get_wtime();
+    /*printf("La matriz de salida es :\n");
+    showMatrix(matrix_Out , size_matrix);
+    */
+    double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+    printf("\n Critical 3%lf \n",total_time);
+  
+    return total_time;
+
+  }  
+
+
+
 double multMatrixrD(int**matrix_A , int**matrix_B , int p, int size_matrix){
     double time_start= omp_get_wtime();
     omp_set_num_threads(p);
-    int**matrix_Out = generateMatrix(N,1); //declaracion de matriz salida
+    int**matrix_Out = generateMatrix(size_matrix,1); //declaracion de matriz salida
 
     //Estas impresiones, junto con la de pi que no está agregada, discutir si mostrar o no
+    /*printf("Matriz A :\n");
+    showMatrix(matrix_A , size_matrix);  //imprimir matriz A
     printf("Matriz A :\n");
-    showMatrix(matrix_A , N);  //imprimir matriz A
-    printf("Matriz A :\n");
-    showMatrix(matrix_B , N);  //imprimir matriz B
-
+    showMatrix(matrix_B , size_matrix);  //imprimir matriz B
+    */
     //Aquí se va a ejecutar el código de la multiplicación
 
-    /*
-    */
+    #pragma omp parallel for
+        for (int a = 0; a < size_matrix; a++) {
+          #pragma omp parallel for
+              for (int i = 0; i < size_matrix; i++) {
+                  int adder = 0;
+                      #pragma omp parallel for schedule(guided , 500) reduction(+:adder) 
+                          for (int j = 0; j < size_matrix; j++) {
+                          // Multiplicamos y sumamos resultado
+                              adder += matrix_A[i][j] * matrix_B[j][a];
+                          }
+                  // Lo acomodamos dentro del producto
+                  matrix_Out[i][a] = adder;
+              }
+        }
 
+    
     double time_end= omp_get_wtime();
-    printf("La matriz de salida es :\n");
-    showMatrix(matrix_Out , N);
-
+    /*printf("La matriz de salida es :\n");
+    showMatrix(matrix_Out , size_matrix);
+    */
     double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
     printf("\n Reduction Dynamic%lf \n",total_time);
   
