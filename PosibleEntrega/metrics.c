@@ -23,3 +23,7 @@ double getAverage(double*nums , int cant_muestras) {
 	printf("\n");
 	return adder / cant_muestras ; //Se retorna efectivamente el promedio (cociente entre la suma y N)
 }
+
+unsigned long int percentage (unsigned long int totalNumber , unsigned long int percentage){
+	return (totalNumber*percentage)/100 ;
+}

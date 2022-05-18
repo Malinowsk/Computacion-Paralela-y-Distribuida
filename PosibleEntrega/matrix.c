@@ -8,61 +8,98 @@
 #include "metrics.h"
 
 #define RAND_MATRIX 10
-#define N 8 //La cantidad de muestras(tiempos)
+#define N 8 
 
 
 void matrix(int size_matrix , int option){
 
-    srand(time(NULL));
-    double*nums = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos
-    double*promedios = (double*)malloc(omp_get_num_procs()*sizeof(double));
-    int**matrix_A = generateMatrix(size_matrix,0); //declaracion e inicialización de matriz A
-    int**matrix_B = generateMatrix(size_matrix,0); //declaracion e inicialización de matriz B
+  double*times_1 = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando atomic
+  double*times_2 = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando critical
+  double*times_p = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando critical
 
-    printf("\nCon un tamaño de matriz de %ld , se obtiene: \n\n" , size_matrix);
+  double*promedio_1 = (double*)malloc(omp_get_num_procs()*sizeof(double));
+  double*devioEstandar_1 = (double*)malloc(omp_get_num_procs()*sizeof(double));
 
-    
-    for(int i = 0 ; i < omp_get_num_procs() ; i++){
-      sleep(4);  
-      printf("\nUsando %d procesador/es: \n\n", (i+1));
-      for(int j = 0 ; j < N ; j++)
-        nums[j] = pickerMatrix(option,i+1,size_matrix,matrix_A,matrix_B);
-    
-    printf("\n");
-    double avg = getAverage(nums,N); 
-    //printf("El promedio de los tiempos es de: %lf\n\n", avg);
-    promedios[i]=avg;
+  double*promedio_2 = (double*)malloc(omp_get_num_procs()*sizeof(double));
+  double*devioEstandar_2 = (double*)malloc(omp_get_num_procs()*sizeof(double));
 
-    printf("El desvio estandar de los tiempos es de: %f\n ", getStdDeviation(nums,avg,N));
+  int**matrix_A = generateMatrix(size_matrix,0); //declaracion e inicialización de matriz A
+  int**matrix_B = generateMatrix(size_matrix,0); //declaracion e inicialización de matriz B
+
+  printf("\n Con un tamaño de matriz de %d se obtiene: \n\n", size_matrix);
+
+
+  printf("\n\e[38;2;0;255;0m \e[48;2;0;0;0m Algoritmo sin pragmas usando 1 procesador/es: \e[0m\n\n");
+  printf("entro1");
+  for(int j = 0 ; j < N ; j++){
+    printf("entro1");
+    times_p[j] = pickerMatrix(5,1,size_matrix,matrix_A,matrix_B); 
+  }
+
+  double avg_p = getAverage(times_p,N); 
+  double sd_p = getStdDeviation(times_p,avg_p,N);
+  printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m sin pragma con 1 procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t\t", sd_p);
+  printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo sin pragma con 1 procesador: \e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", avg_p);
     
-    
+  for(int i = 1 ; i <= omp_get_num_procs() ; i++){
+    sleep(4);  
+    printf("\n\e[38;2;0;255;0m \e[48;2;0;0;0m Algoritmo con pragmas usando %d procesador/es: \e[0m\n\n", (i));
+    for(int j = 0 ; j < N ; j++){
+        times_1[j] = pickerMatrix(option,i,size_matrix,matrix_A,matrix_B);
+        times_2[j] = pickerMatrix(option+2,i,size_matrix,matrix_A,matrix_B);
     }
 
-  	for(int i = 0 ; i < omp_get_num_procs() ; i++)
-       printf("Promedio de tiempo con %d procesador: %lf segundos\n\n", (i+1), promedios[i]);
+    double avg_1 = getAverage(times_1,N); 
+    double avg_2 = getAverage(times_2,N); 
 
-  
-	  printf("Continuar");
-	  sleep(2);
-	  getchar();
+    promedio_1[i]=avg_1;
+    devioEstandar_1[i]=getStdDeviation(times_1,avg_1,N);
+
+    promedio_2[i]=avg_2;
+    devioEstandar_2[i]=getStdDeviation(times_2,avg_2,N);
+    
+    if(option==1){
+    printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m para el  atomic con %d procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t\t", (i), devioEstandar_1[i]);
+    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el  atomic con %d procesador: \e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", (i), promedio_1[i]);
+    printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m para el critical con %d procesador:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t\t", (i), devioEstandar_2[i]);
+    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el critical con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", (i), promedio_2[i]);
+    }
+    else
+    {
+    printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para el Reduction Normal con %d procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg  ", (i), devioEstandar_1[i]);
+    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el Rduction Normal con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_1[i]);
+    printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para Reduc con Plan Dinamica con %d procesador:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg  ", (i), devioEstandar_2[i]);
+    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para Reduc con Plan Dinamica con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_2[i]);
+    }
+    
+  }
+
+  printf("\n");
+
+  printf("Continuar");
+  sleep(2);
+  getchar();
 
 }
 
 double pickerMatrix(int num, int p , int size_matrix , int**matrix_A , int**matrix_B){
-     
+     printf("entro2");
      switch (num)
                 {
                 case 1:
-                    return multMatrix(matrix_A,matrix_B,p,size_matrix);
-                    break;
-                case 2:
                     return multMatrixnra(matrix_A,matrix_B,p,size_matrix);
                     break;
-                case 3:
+                case 2:
                     return multMatrixr(matrix_A,matrix_B,p,size_matrix);
+                    break;
+                case 3:
+                    return multMatrixnrc(matrix_A,matrix_B,p,size_matrix);
                     break;
                 case 4:
                     return multMatrixrD(matrix_A,matrix_B,p,size_matrix);
+                    break;
+                case 5:
+                    return multMatrix(matrix_A,matrix_B,p,size_matrix);
                     break;
                 default:
                     return 1.00;
@@ -108,7 +145,7 @@ double multMatrix(int**matrix_A , int**matrix_B , int p, int size_matrix){
 
   double time_start= omp_get_wtime();
   omp_set_num_threads(p);
-  int**matrix_Out = generateMatrix(N,1); //declaracion de matriz salida
+  int**matrix_Out = generateMatrix(size_matrix,1); //declaracion de matriz salida
 
   //Estas impresiones, junto con la de pi que no está agregada, discutir si mostrar o no
   /*printf("Matriz A :\n");
