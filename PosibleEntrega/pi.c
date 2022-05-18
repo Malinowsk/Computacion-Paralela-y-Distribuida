@@ -286,7 +286,7 @@ double generatorPIrD(int n , int n_steps){
   return total_time;
 }
 
-
+// igual que el dinamic (le da mientras va terminando lo que tiene), pero en cada vuelta el conjunto de iteraciones que el so le da es menor (ej: le da 100 , la proxima le da 40 , la prox 10 ,5, ect ) 
 double pruebaGuided(int n , int percen , int n_steps){
   int percentaje_local = percentage(n_steps,percen);
   double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
@@ -308,7 +308,7 @@ double pruebaGuided(int n , int percen , int n_steps){
   return total_time;
 }
 
-
+    // el so le asigna a cada hilo dinamicamente unas cierca cantidad de iteraciones (mientras van terminando le va dando hilos de los que quede )
 double pruebaDynamic(int n , int percen, int n_steps){
   unsigned long int percentaje_local = percentage(n_steps,percen);
   
@@ -331,7 +331,7 @@ double pruebaDynamic(int n , int percen, int n_steps){
   return total_time;
 }
 
-
+// el so le asigna a cada hilo estaticmaente unas cierca cantidad de iteraciones, y prepara las proximas iteracciones especificas para cada hilo (n espera q termine la que tiene para asignarle otra ya lo define de antemano)
 double pruebaStatic(int n , int percen, int n_steps){
   unsigned long int percentaje_local = percentage((unsigned long int)n_steps,(unsigned long int)percen);
   
