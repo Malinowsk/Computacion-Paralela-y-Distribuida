@@ -10,4 +10,8 @@ double generatorPInrc(int n , int n_steps);
 double generatorPIrD(int n , int n_steps);
 double pickerPi (int num, int i , int n_steps);
 
+double pruebaGuided(int n ,int percen , int n_steps);
+double pruebaDynamic(int n ,int percen , int n_steps);
+double pruebaStatic(int n ,int percen , int n_steps);
+
 
