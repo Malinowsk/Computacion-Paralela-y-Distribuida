@@ -138,10 +138,10 @@ double pickerPi(int num, int i , int n_steps){
                     return generatorPI(i,n_steps);
                     break;
                 case 6:
-                    return pruebaGuided(i,5,n_steps);
+                    return pruebaGuided(i,8,n_steps);
                     break;
                 case 7:
-                    return pruebaStatic(i,5,n_steps);
+                    return pruebaStatic(i,2,n_steps);
                     break;
                 default:
                     return 1.00;
@@ -289,6 +289,9 @@ double generatorPIrD(int n , int n_steps){
 // igual que el dinamic (le da mientras va terminando lo que tiene), pero en cada vuelta el conjunto de iteraciones que el so le da es menor (ej: le da 100 , la proxima le da 40 , la prox 10 ,5, ect ) 
 double pruebaGuided(int n , int percen , int n_steps){
   int percentaje_local = percentage(n_steps,percen);
+  if(percentaje_local==0){
+    percentaje_local= percentaje_local+1;
+  }
   double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
   double x, pi , sum = 0.0;
   step = 1.0 / (double) n_steps;
@@ -311,7 +314,9 @@ double pruebaGuided(int n , int percen , int n_steps){
     // el so le asigna a cada hilo dinamicamente unas cierca cantidad de iteraciones (mientras van terminando le va dando hilos de los que quede )
 double pruebaDynamic(int n , int percen, int n_steps){
   unsigned long int percentaje_local = percentage(n_steps,percen);
-  
+  if(percentaje_local==0){
+    percentaje_local= percentaje_local+1;
+  }
   double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
   double x, pi , sum = 0.0;
   step = 1.0 / (double) n_steps;
@@ -334,7 +339,9 @@ double pruebaDynamic(int n , int percen, int n_steps){
 // el so le asigna a cada hilo estaticmaente unas cierca cantidad de iteraciones, y prepara las proximas iteracciones especificas para cada hilo (n espera q termine la que tiene para asignarle otra ya lo define de antemano)
 double pruebaStatic(int n , int percen, int n_steps){
   unsigned long int percentaje_local = percentage((unsigned long int)n_steps,(unsigned long int)percen);
-  
+  if(percentaje_local==0){
+    percentaje_local= percentaje_local+1;
+  }
   double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
   double x, pi , sum = 0.0;
   step = 1.0 / (double) n_steps;
