@@ -37,7 +37,7 @@ void pi(int n_steps,int option){
   double*promedio_4 = (double*)malloc(omp_get_num_procs()*sizeof(double));
   double*devioEstandar_4 = (double*)malloc(omp_get_num_procs()*sizeof(double));
 
-  /*
+  
   printf("\n\t\tEjecución del algoritmo para el \e[38;2;128;0;255m \e[48;2;0;0;0mcalculo de PI con un numero de pasos de %d \e[0m, se obtiene: \n\n" , n_steps);
 
   printf("\n\e[38;2;0;255;0m \e[48;2;0;0;0m Algoritmo sin pragmas usando 1 procesador/es: \e[0m\n\n");
@@ -48,9 +48,9 @@ void pi(int n_steps,int option){
   double sd_p = getStdDeviation(times_p,avg_p,N);
   printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m sin pragma con 1 procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t\t", sd_p);
   printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo sin pragma con 1 procesador: \e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", avg_p);
-  */
   
-  for(int i = 2 ; i <= omp_get_num_procs() ; i++){
+  
+  for(int i = 1 ; i <= omp_get_num_procs() ; i++){
     sleep(4);  
     printf("\n\e[38;2;0;255;0m \e[48;2;0;0;0m Algoritmo con pragmas usando %d procesador/es: \e[0m\n\n", (i));
     if(option==1){
@@ -289,6 +289,9 @@ double generatorPIrD(int n , int n_steps){
 // igual que el dinamic (le da mientras va terminando lo que tiene), pero en cada vuelta el conjunto de iteraciones que el so le da es menor (ej: le da 100 , la proxima le da 40 , la prox 10 ,5, ect ) 
 double pruebaGuided(int n , int percen , int n_steps){
   int percentaje_local = percentage(n_steps,percen);
+  if(percentaje_local==0){
+    percentaje_local= percentaje_local+1;
+  }
   double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
   double x, pi , sum = 0.0;
   step = 1.0 / (double) n_steps;
@@ -311,7 +314,9 @@ double pruebaGuided(int n , int percen , int n_steps){
     // el so le asigna a cada hilo dinamicamente unas cierca cantidad de iteraciones (mientras van terminando le va dando hilos de los que quede )
 double pruebaDynamic(int n , int percen, int n_steps){
   unsigned long int percentaje_local = percentage(n_steps,percen);
-  
+  if(percentaje_local==0){
+    percentaje_local= percentaje_local+1;
+  }
   double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
   double x, pi , sum = 0.0;
   step = 1.0 / (double) n_steps;
@@ -334,7 +339,9 @@ double pruebaDynamic(int n , int percen, int n_steps){
 // el so le asigna a cada hilo estaticmaente unas cierca cantidad de iteraciones, y prepara las proximas iteracciones especificas para cada hilo (n espera q termine la que tiene para asignarle otra ya lo define de antemano)
 double pruebaStatic(int n , int percen, int n_steps){
   unsigned long int percentaje_local = percentage((unsigned long int)n_steps,(unsigned long int)percen);
-  
+  if(percentaje_local==0){
+    percentaje_local= percentaje_local+1;
+  }
   double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
   double x, pi , sum = 0.0;
   step = 1.0 / (double) n_steps;

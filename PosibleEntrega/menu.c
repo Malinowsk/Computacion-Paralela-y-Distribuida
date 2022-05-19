@@ -139,10 +139,12 @@ int getStep(){
 }
 
 int getSizeMatrix(){
+    system("clear"); // Limpia la Pantalla
     int n;
     printf("\n");
     printf("Ingresa tamaño de matriz:\n");
     printf("\n");
     scanf("%d", &n);   
+    system("clear"); // Limpia la Pantalla
     return n;
 }
