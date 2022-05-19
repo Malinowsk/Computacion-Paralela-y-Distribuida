@@ -37,7 +37,7 @@ void pi(int n_steps,int option){
   double*promedio_4 = (double*)malloc(omp_get_num_procs()*sizeof(double));
   double*devioEstandar_4 = (double*)malloc(omp_get_num_procs()*sizeof(double));
 
-  
+  /*
   printf("\n\t\tEjecución del algoritmo para el \e[38;2;128;0;255m \e[48;2;0;0;0mcalculo de PI con un numero de pasos de %d \e[0m, se obtiene: \n\n" , n_steps);
 
   printf("\n\e[38;2;0;255;0m \e[48;2;0;0;0m Algoritmo sin pragmas usando 1 procesador/es: \e[0m\n\n");
@@ -48,9 +48,9 @@ void pi(int n_steps,int option){
   double sd_p = getStdDeviation(times_p,avg_p,N);
   printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m sin pragma con 1 procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t\t", sd_p);
   printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo sin pragma con 1 procesador: \e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", avg_p);
+  */
   
-  
-  for(int i = 1 ; i <= omp_get_num_procs() ; i++){
+  for(int i = 2 ; i <= omp_get_num_procs() ; i++){
     sleep(4);  
     printf("\n\e[38;2;0;255;0m \e[48;2;0;0;0m Algoritmo con pragmas usando %d procesador/es: \e[0m\n\n", (i));
     if(option==1){
@@ -138,10 +138,10 @@ double pickerPi(int num, int i , int n_steps){
                     return generatorPI(i,n_steps);
                     break;
                 case 6:
-                    return pruebaGuided(i,5,n_steps);
+                    return pruebaGuided(i,8,n_steps);
                     break;
                 case 7:
-                    return pruebaStatic(i,5,n_steps);
+                    return pruebaStatic(i,2,n_steps);
                     break;
                 default:
                     return 1.00;

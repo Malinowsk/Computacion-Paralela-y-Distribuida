@@ -84,12 +84,8 @@ void menu_nivel_1(){
             {       printf("Opcion 3\n");
                     printf("\n");  
                     printf("Aca se describe el hardware de la CPU:\n\n"); // datos del cpu
-                    system("cat /proc/cpuinfo | grep 'vendor' | uniq");
-                    system("cat /proc/cpuinfo | grep 'model name' | uniq");
-                    system("cat /proc/cpuinfo | grep processor | wc -l");
-                    system("cat /proc/cpuinfo | grep 'core id'");
-                    
-                    system("cat /proc/cpuinfo");
+                    printf("\n");  
+                    system("lscpu | head -n $(lscpu | grep -n min | cut -d \":\" -f 1)");
 
                     getchar();
                     
