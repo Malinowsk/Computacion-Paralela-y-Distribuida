@@ -16,15 +16,15 @@ double step;
 void pi(int n_steps,int option){
 
 
-  double*times_1 = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando atomic
-  double*times_2 = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando critical
-  double*times_3 = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando atomic
-  double*times_4 = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando critical
+  double*times_1 = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando atomic/red normal
+  double*times_2 = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando critical/dinamic
+  double*times_3 = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando red guided
+  double*times_4 = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando red static
   
-  double*times_p = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando critical
+  double*times_p = (double*)malloc(N*sizeof(double)); //Se genera la estructura donde se va a guardar los tiempos usando el algoritmo secuencial básico sin pragmas
 
 
-
+  // se generan las estructuras donde se usan para guardar los promedios y desvios estandar de los algoritmos concurrentes
   double*promedio_1 = (double*)malloc(omp_get_num_procs()*sizeof(double));
   double*devioEstandar_1 = (double*)malloc(omp_get_num_procs()*sizeof(double));
 
@@ -40,81 +40,85 @@ void pi(int n_steps,int option){
   
   printf("\n\t\tEjecución del algoritmo para el \e[38;2;128;0;255m \e[48;2;0;0;0mcalculo de PI con un numero de pasos de %d \e[0m, se obtiene: \n\n" , n_steps);
 
+  //calculo secuencial sin pragmas
+
   printf("\n\e[38;2;0;255;0m \e[48;2;0;0;0m Algoritmo sin pragmas usando 1 procesador/es: \e[0m\n\n");
-  for(int j = 0 ; j < N ; j++){
+  for(int j = 0 ; j < N ; j++){  // se calcula un promedio de tiempo para algoritmo secuencial básico sin pragmas
         times_p[j] = pickerPi(5,1,n_steps);
     }
+  // calculo del promedio, desvio estandar y se muestra por pantalla (tiempo secuancial sin pragma) 
   double avg_p = getAverage(times_p,N); 
   double sd_p = getStdDeviation(times_p,avg_p,N);
   printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m sin pragma con 1 procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t\t", sd_p);
   printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo sin pragma con 1 procesador: \e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", avg_p);
   
-  
+  //calculo utilizando pragmas
+
+  //iteracion de tanto procesadores como tenga la cpu en la cual se ejecuta el programa
   for(int i = 1 ; i <= omp_get_num_procs() ; i++){
     sleep(4);  
     printf("\n\e[38;2;0;255;0m \e[48;2;0;0;0m Algoritmo con pragmas usando %d procesador/es: \e[0m\n\n", (i));
-    if(option==1){
-      for(int j = 0 ; j < N ; j++){
-          times_1[j] = pickerPi(option,i,n_steps);
-          times_2[j] = pickerPi(option+2,i,n_steps);
-      }
-    }
-    else{
-         for(int j = 0 ; j < N ; j++){
-          times_1[j] = pickerPi(option,i,n_steps);
-          times_2[j] = pickerPi(option+2,i,n_steps); 
+    for(int j = 0 ; j < N ; j++){ // iteraccion de N para sacar un promedio de tiempo con un desvio estandar bajo 
+        times_1[j] = pickerPi(option,i,n_steps);
+        times_2[j] = pickerPi(option+2,i,n_steps);
+        if(option==2){ // Entra con la opcion reduccion
           times_3[j] = pickerPi(option+4,i,n_steps);
-          times_4[j] = pickerPi(option+5,i,n_steps);  
-          }
+          times_4[j] = pickerPi(option+5,i,n_steps);
+        } 
     }
 
-    //printf("\n");
+///////////////////////////////calculo de promedios y desvio estandar///////////////////////////////////////// 
+    
     double avg_1 = getAverage(times_1,N); 
     double avg_2 = getAverage(times_2,N); 
-    double avg_3 = getAverage(times_3,N); 
-    double avg_4 = getAverage(times_4,N); 
 
-    //printf("El promedio de los tiempos es de: %lf\n\n", avg);
     promedio_1[i]=avg_1;
     devioEstandar_1[i]=getStdDeviation(times_1,avg_1,N);
-
     promedio_2[i]=avg_2;
     devioEstandar_2[i]=getStdDeviation(times_2,avg_2,N);
 
-    promedio_3[i]=avg_3;
-    devioEstandar_3[i]=getStdDeviation(times_3,avg_3,N);
-    
-    promedio_4[i]=avg_4;
-    devioEstandar_4[i]=getStdDeviation(times_4,avg_4,N);
+    // Entra con la opcion reduccion
+    if(option==2){ 
+      double avg_3 = getAverage(times_3,N); 
+      double avg_4 = getAverage(times_4,N); 
+      promedio_3[i]=avg_3;
+      devioEstandar_3[i]=getStdDeviation(times_3,avg_3,N);
+      promedio_4[i]=avg_4;
+      devioEstandar_4[i]=getStdDeviation(times_4,avg_4,N);
+    }
 
-    if(option==1){
+/////////////////////////// Muestra por pantalla promedios y desvios estandar///////////////////////////////////////////////
+    
+    if(option==1){ // Entra con la opcion no reduccion
     printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m para el  atomic con %d procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t\t", (i), devioEstandar_1[i]);
     printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el  atomic con %d procesador: \e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", (i), promedio_1[i]);
+    
     printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m para el critical con %d procesador:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t\t", (i), devioEstandar_2[i]);
     printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el critical con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", (i), promedio_2[i]);
     }
-    else
+    else // Entra con la opcion reduccion
     {
-
     printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para el Reduction Normal con %d procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg  ", (i), devioEstandar_1[i]);
     printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el Rduction Normal con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_1[i]);
+    
     printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para Reduc con Plan Dinamica con %d procesador:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg  ", (i), devioEstandar_2[i]);
     printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para Reduc con Plan Dinamica con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_2[i]);
 
     printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para el Reduction guided con %d procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg  ", (i), devioEstandar_3[i]);
     printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el Rduction guided con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_3[i]);
+    
     printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para Reduc con Plan static con %d procesador:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg  ", (i), devioEstandar_4[i]);
     printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para Reduc con Plan static con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_4[i]);
- 
     }
     
   }
+
 
   printf("\n");
 
   printf("Continuar");
   sleep(2);
-  getchar();
+  getchar(); // presionar una tecla para continuar
 
 }
 
