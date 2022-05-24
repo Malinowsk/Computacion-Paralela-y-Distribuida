@@ -30,7 +30,7 @@ void menu_nivel_1(){
         printf("\n");
         printf("    1- Calculo de Pi\n");
         printf("    2- Multiplicacion de Matrices\n");
-        printf("    3- Hardware del CPU\n");
+        printf("    3- Hardware del CPU y SO\n");
         printf("    4- Salir\n");
         printf("\n");
         printf("Ingrese una opción:  ");
@@ -81,19 +81,32 @@ void menu_nivel_1(){
             break;
             }    
             case 3:
-            {       printf("Opcion 3\n");
-                    printf("\n");  
-                    printf("Aca se describe el hardware de la CPU:\n\n"); // datos del cpu
-                    printf("\n");  
-                    system("lscpu | head -n $(lscpu | grep -n min | cut -d \":\" -f 1)");
+            {       
+                    system("clear"); // Limpia la Pantalla
 
+                    printf("\n");
+                    printf("\n");  
+                    printf("\e[38;2;255;0;0m\e[3mDescripción del hardware de la CPU:\e[0m\n\n"); // datos del cpu
+                    printf("\n");  
+                    system("""lscpu | head -n $(lscpu | grep -n Bogo | cut -d \":\" -f 1)""");
+
+                    printf("\n");  
+                    printf("\n");  
+                    printf("\e[38;2;255;0;0m\e[3mDescripción del SO:\e[0m\n\n"); // datos del so
+                    printf("\n");  
+                    system("cat /etc/*release | head -n $(cat /etc/*release | grep -n ID_LIKE | cut -d \":\" -f 1)");
+
+                    
                     getchar();
                     
                     printf("\n"); 
 
+                    sleep(1);
+
+                    printf("\n"); 
+                    printf("\e[38;2;0;0;255m\e[3mContinuar...\e[0m");
                     getchar();
                     
-                    sleep(1);
             break;
             }
             case 4:
