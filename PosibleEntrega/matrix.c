@@ -48,7 +48,7 @@ void matrix(int size_matrix , int option){
   // calculo del promedio, desvio estandar y se muestra por pantalla (tiempo secuancial sin pragma) 
   double avg_p = getAverage(times_p,N); 
   double sd_p = getStdDeviation(times_p,avg_p,N);
-  printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m sin pragma con 1 procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t", sd_p);
+  printf("El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m sin pragma con 1 procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t", sd_p);
   printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo sin pragma con 1 procesador: \e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", avg_p);
     
   //calculo utilizando pragmas
@@ -90,24 +90,24 @@ void matrix(int size_matrix , int option){
     
 
     if(option==1){ // Entra con la opcion no reduccion
-    printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m para el  atomic con %d proc: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t", (i), devioEstandar_1[i]);
+    printf("El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m para el  atomic con %d proc: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t", (i), devioEstandar_1[i]);
     printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el  atomic con %d proc: \e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", (i), promedio_1[i]);
     
-    printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m para el critical con %d proc:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t", (i), devioEstandar_2[i]);
+    printf("El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m para el critical con %d proc:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t", (i), devioEstandar_2[i]);
     printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el critical con %d proc:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", (i), promedio_2[i]);
     }
     else // Entra con la opcion reduccion
     {
-    printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para el Reduction con %d proc: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t", (i), devioEstandar_1[i]);
+    printf("El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para el Reduction con %d proc: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t", (i), devioEstandar_1[i]);
     printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el Reduction con %d proc:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_1[i]);
     
-    printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para Dynamic con %d proc:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t\t", (i), devioEstandar_2[i]);
+    printf("El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para Dynamic con %d proc:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t\t", (i), devioEstandar_2[i]);
     printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para Dynamic con %d proc:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_2[i]);
     
-    printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para el Guided con %d proc: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t", (i), devioEstandar_3[i]);
+    printf("El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para el Guided con %d proc: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t\t", (i), devioEstandar_3[i]);
     printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el Guided con %d proc:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_3[i]);
     
-    printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para Static con %d proc:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t\t", (i), devioEstandar_4[i]);
+    printf("El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para Static con %d proc:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t\t", (i), devioEstandar_4[i]);
     printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para Static con %d proc:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_4[i]);
     }
     
@@ -251,7 +251,7 @@ double multMatrix(int**matrix_A , int**matrix_B , int p, int size_matrix){
     showMatrix(matrix_Out , size_matrix);
     */
     double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-    printf("\n\e[48;2;255;255;0m\e[38;5;196m\e[1m Reduction  Normal \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0m seg",total_time);
+    printf("\n\e[48;2;255;255;0m\e[38;5;196m\e[1m Reduction  Normal \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0mseg ",total_time);
   
     return total_time;
   
@@ -365,7 +365,7 @@ double multMatrixrD(int**matrix_A , int**matrix_B , int p, int size_matrix , int
     */
     double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
 
-    printf("\e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Dinamica \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0mseg\t" ,  total_time);
+    printf("\e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Dinamica \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0mseg " ,  total_time);
   
     return total_time;
 
@@ -410,7 +410,7 @@ double multMatrixrG(int**matrix_A , int**matrix_B , int p, int size_matrix,  int
     showMatrix(matrix_Out , size_matrix);
     */
     double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-    printf("\e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Guided \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0m seg\t" ,  total_time);
+    printf("\e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Guided \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0mseg " ,  total_time);
   
     return total_time;
 
@@ -455,7 +455,7 @@ double multMatrixrS(int**matrix_A , int**matrix_B , int p, int size_matrix,  int
     showMatrix(matrix_Out , size_matrix);
     */
     double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-    printf("\e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Estatica \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0m seg\n" ,  total_time);
+    printf("\e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Estatica \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0mseg\n" ,  total_time);
   
     return total_time;
 
