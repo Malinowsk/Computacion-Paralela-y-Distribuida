@@ -10,6 +10,6 @@ double multMatrix(int**matrix_A , int**matrix_B , int p , int size_matrix); //Fu
 double multMatrixnra(int**matrix_A , int**matrix_B , int p , int size_matrix); //Funciona. Era el atomic 3, que fue el mejor
 double multMatrixr(int**matrix_A , int**matrix_B , int p , int size_matrix);
 double multMatrixnrc(int**matrix_A , int**matrix_B , int p , int size_matrix); //Funciona pero es muy lento
-double multMatrixrS(int**matrix_A , int**matrix_B , int p , int size_matrix);
-double multMatrixrD(int**matrix_A , int**matrix_B , int p , int size_matrix);
-double multMatrixrG(int**matrix_A , int**matrix_B , int p , int size_matrix);
+double multMatrixrS(int**matrix_A , int**matrix_B , int p , int size_matrix ,  int percen );
+double multMatrixrD(int**matrix_A , int**matrix_B , int p , int size_matrix ,  int percen );
+double multMatrixrG(int**matrix_A , int**matrix_B , int p , int size_matrix, int percen );

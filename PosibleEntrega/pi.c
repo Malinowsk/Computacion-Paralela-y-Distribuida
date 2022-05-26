@@ -49,7 +49,7 @@ void pi(int n_steps,int option){
   // calculo del promedio, desvio estandar y se muestra por pantalla (tiempo secuancial sin pragma) 
   double avg_p = getAverage(times_p,N); 
   double sd_p = getStdDeviation(times_p,avg_p,N);
-  printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m sin pragma con 1 procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t\t", sd_p);
+  printf("El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m sin pragma con 1 procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t", sd_p);
   printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo sin pragma con 1 procesador: \e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", avg_p);
   
   //calculo utilizando pragmas
@@ -90,25 +90,25 @@ void pi(int n_steps,int option){
 /////////////////////////// Muestra por pantalla promedios y desvios estandar///////////////////////////////////////////////
     
     if(option==1){ // Entra con la opcion no reduccion
-    printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m para el  atomic con %d procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t\t", (i), devioEstandar_1[i]);
-    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el  atomic con %d procesador: \e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", (i), promedio_1[i]);
+    printf("El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m para el  atomic con %d procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t", (i), devioEstandar_1[i]);
+    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el  atomic con %d procesador: \e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_1[i]);
     
-    printf(" El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m para el critical con %d procesador:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m segundos\t\t", (i), devioEstandar_2[i]);
-    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el critical con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m segundos\n\n", (i), promedio_2[i]);
+    printf("El\e[38;2;0;0;255m \e[48;2;0;0;0m \e[3mdesvio estandar \e[0m para el critical con %d procesador:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t", (i), devioEstandar_2[i]);
+    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el critical con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_2[i]);
     }
     else // Entra con la opcion reduccion
-    {
-    printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para el Reduction Normal con %d procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg  ", (i), devioEstandar_1[i]);
-    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el Rduction Normal con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_1[i]);
+   {
+    printf("El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para el Reduction con %d proc: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t", (i), devioEstandar_1[i]);
+    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el Reduction con %d proc:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_1[i]);
     
-    printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para Reduc con Plan Dinamica con %d procesador:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg  ", (i), devioEstandar_2[i]);
-    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para Reduc con Plan Dinamica con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_2[i]);
-
-    printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para el Reduction guided con %d procesador: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg  ", (i), devioEstandar_3[i]);
-    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el Rduction guided con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_3[i]);
+    printf("El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para Dynamic con %d proc:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t\t", (i), devioEstandar_2[i]);
+    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para Dynamic con %d proc:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_2[i]);
     
-    printf(" El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para Reduc con Plan static con %d procesador:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg  ", (i), devioEstandar_4[i]);
-    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para Reduc con Plan static con %d procesador:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_4[i]);
+    printf("El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para el Guided con %d proc: \e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t", (i), devioEstandar_3[i]);
+    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para el Guided con %d proc:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_3[i]);
+    
+    printf("El \e[38;2;0;0;255m\e[48;2;0;0;0m\e[3m desvio estandar \e[0m para Static con %d proc:\e[38;2;0;0;255m \e[48;2;0;0;0m %lf \e[0m seg\t\t", (i), devioEstandar_4[i]);
+    printf("\e[38;5;196m \e[48;2;0;0;0m\e[3m Promedio \e[0m de tiempo para Static con %d proc:\e[38;5;196m \e[48;2;0;0;0m %lf \e[0m seg\n\n", (i), promedio_4[i]);
     }
     
   }
@@ -136,6 +136,7 @@ double pickerPi(int num, int i , int n_steps){
                     return generatorPInrc(i,n_steps);
                     break;
                 case 4:
+                    //return generatorPIr2(i,n_steps);
                     return pruebaDynamic(i,5,n_steps);
                     break;
                 case 5:
@@ -159,10 +160,30 @@ double generatorPIr(int n , int n_steps){
   double x, pi , sum = 0.0;
   step = 1.0 / (double) n_steps;
   omp_set_num_threads(n); //Setea la cantidad de Threads a usar. No debe superar a la cantidad física de cores
-
+  
   #pragma omp parallel for reduction(+:sum) private(x)
   for(int i = 0 ; i < n_steps ; i++){
     x = (i+0.5)*step;
+    sum += 4.0/(1.0+x*x);
+  }
+  pi = step * sum;
+
+  double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
+  double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+  printf("\n\e[48;2;255;255;0m\e[38;5;196m\e[1m Reduction  Normal \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0mseg",total_time);
+  
+  return total_time;
+}
+
+double generatorPIr2(int n , int n_steps){
+  double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
+  double pi , sum = 0.0;
+  step = 1.0 / (double) n_steps;
+  omp_set_num_threads(n); //Setea la cantidad de Threads a usar. No debe superar a la cantidad física de cores
+  
+  #pragma omp parallel for shared( n_steps , step ) reduction(+:sum) 
+  for(int i = 0 ; i < n_steps ; i++){
+    double x = (i+0.5)*step;
     sum += 4.0/(1.0+x*x);
   }
   pi = step * sum;
@@ -173,6 +194,7 @@ double generatorPIr(int n , int n_steps){
   
   return total_time;
 }
+
 
 
 double generatorPInrc(int n , int n_steps){
@@ -310,7 +332,7 @@ double pruebaGuided(int n , int percen , int n_steps){
 
   double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
   double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-  printf("\e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Guided \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0m seg\t" ,  total_time);
+  printf("\e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Guided \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0mseg " ,  total_time);
 
   return total_time;
 }
@@ -335,7 +357,7 @@ double pruebaDynamic(int n , int percen, int n_steps){
 
   double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
   double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-  printf("\e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Dinamica \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0mseg\t" ,  total_time);
+  printf(" \e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Dinamica \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0mseg " ,  total_time);
 
   return total_time;
 }
@@ -360,7 +382,7 @@ double pruebaStatic(int n , int percen, int n_steps){
 
   double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
   double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-  printf("\e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Estatica \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0m seg\n" ,  total_time);
+  printf("\e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Estatica \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0mseg\n" ,  total_time);
 
   return total_time;
 }
