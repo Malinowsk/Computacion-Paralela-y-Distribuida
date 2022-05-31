@@ -154,73 +154,26 @@ double pickerPi(int num, int i , int n_steps){
 }
 
 
-double generatorPIr(int n , int n_steps){
-  double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
-  double x, pi , sum = 0.0;
-  step = 1.0 / (double) n_steps;
-  omp_set_num_threads(n); //Setea la cantidad de Threads a usar. No debe superar a la cantidad física de cores
-  
-  #pragma omp parallel for reduction(+:sum) private(x)
-  for(int i = 0 ; i < n_steps ; i++){
-    x = (i+0.5)*step;
-    sum += 4.0/(1.0+x*x);
-  }
-  pi = step * sum;
+double generatorPI(int n , int n_steps){
+   
+    double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
 
-  double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
-  double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-  printf("\n\e[48;2;255;255;0m\e[38;5;196m\e[1m Reduct Normal \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0mseg",total_time);
+    double x, pi , sum = 0.0;
+    step = 1.0 / (double) n_steps;
+    for(int i = 0 ; i < n_steps ; i++){
+     
+      x = (i+0.5)*step;
+      sum += 4.0/(1.0+x*x);
+    }
+    pi = step * sum;
   
-  return total_time;
+    double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
+    double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+    printf("\n\t \e[48;2;255;255;0m\e[38;5;196m\e[1m Secuencial sin pragma \e[0m \e[38;2;0;255;0m \e[48;2;0;0;0m %lf \e[0m seg \n",total_time);
+
+   return total_time;
+   
 }
-
-double generatorPIr2(int n , int n_steps){
-  double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
-  double pi , sum = 0.0;
-  step = 1.0 / (double) n_steps;
-  omp_set_num_threads(n); //Setea la cantidad de Threads a usar. No debe superar a la cantidad física de cores
-  
-  #pragma omp parallel for shared( n_steps , step ) reduction(+:sum) 
-  for(int i = 0 ; i < n_steps ; i++){
-    double x = (i+0.5)*step;
-    sum += 4.0/(1.0+x*x);
-  }
-  pi = step * sum;
-
-  double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
-  double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-  printf("\n\t\e[48;2;255;255;0m\e[38;5;196m\e[1m Reduction  Normal \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0m seg\t",total_time);
-  
-  return total_time;
-}
-
-
-
-double generatorPInrc(int n , int n_steps){
-  double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
-
-  double x, pi , sum= 0.0;
-  step = 1.0 / (double) n_steps;
-  
-  omp_set_num_threads(n); //Setea la cantidad de Threads a usar. No debe superar a la cantidad física de cores
- 
-  #pragma omp parallel for
-   for(int i = 0 ; i < n_steps ; i++){
-     double x = 4.0/(1.0+(((i+0.5)*step)*((i+0.5)*step)));
-     #pragma omp critical
-        sum = sum + x;
-   }
-
-  pi = step * sum;
-
-  double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
-  double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-  printf("\t No reduction \e[48;2;255;255;0m\e[38;5;196m\e[1m Critical \e[0m \e[38;2;0;255;0m \e[48;2;0;0;0m %lf \e[0m seg \n",total_time);
-  
-  return total_time;
-
-  }
-
 
 
 double generatorPInra(int n , int n_steps){
@@ -247,57 +200,39 @@ double generatorPInra(int n , int n_steps){
 }
 
 
-double generatorPI(int n , int n_steps){
-   
-    double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
+double generatorPInrc(int n , int n_steps){
+  double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
 
-    double x, pi , sum = 0.0;
-    step = 1.0 / (double) n_steps;
-    for(int i = 0 ; i < n_steps ; i++){
-     
-      x = (i+0.5)*step;
-      sum += 4.0/(1.0+x*x);
-    }
-    pi = step * sum;
+  double x, pi , sum= 0.0;
+  step = 1.0 / (double) n_steps;
   
-    double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
-    double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-    printf("\n\t \e[48;2;255;255;0m\e[38;5;196m\e[1m Secuencial sin pragma \e[0m \e[38;2;0;255;0m \e[48;2;0;0;0m %lf \e[0m seg \n",total_time);
+  omp_set_num_threads(n); //Setea la cantidad de Threads a usar. No debe superar a la cantidad física de cores
+ 
+  #pragma omp parallel for
+   for(int i = 0 ; i < n_steps ; i++){
+     double x = 4.0/(1.0+(((i+0.5)*step)*((i+0.5)*step)));
+     #pragma omp critical
+        sum = sum + x;
+   }
 
-   return total_time;
+  pi = step * sum;
+
+  double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
+  double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
+  printf("\t No reduction \e[48;2;255;255;0m\e[38;5;196m\e[1m Critical \e[0m \e[38;2;0;255;0m \e[48;2;0;0;0m %lf \e[0m seg \n",total_time);
   
-    
+  return total_time;
+
 }
 
-/*
 
-void generatorPIr2(int n){
-  float tiempo_inicial= omp_get_wtime();
-  double pi , sum = 0.0;
-  step = 1.0 / (double) n_steps;
-  omp_set_num_threads(n); //Setea la cantidad de Threads a usar. No debe superar a la cantidad física de cores
-  
-    #pragma omp parallel for reduction(+:sum)
-    for(int i = 0 ; i < n_steps ; i++){
-      double x = 4.0/(1.0+(((i+0.5)*step)*((i+0.5)*step)));
-      sum = sum + x;
-    }
-    pi = step * sum;
-
-    float tiempo_final= omp_get_wtime();
-
-    printf(" reduccion2 %f  The pi's valor : %lf\n",tiempo_final-tiempo_inicial , pi);
-}*/
-
-
-
-double generatorPIrD(int n , int n_steps){
+double generatorPIr(int n , int n_steps){
   double time_start= omp_get_wtime(); //Setea el tiempo inicial para medir el tiempo total
   double x, pi , sum = 0.0;
   step = 1.0 / (double) n_steps;
   omp_set_num_threads(n); //Setea la cantidad de Threads a usar. No debe superar a la cantidad física de cores
-
-  #pragma omp parallel for schedule(guided , 200000) reduction(+:sum) private(x) 
+  
+  #pragma omp parallel for reduction(+:sum) private(x)
   for(int i = 0 ; i < n_steps ; i++){
     x = (i+0.5)*step;
     sum += 4.0/(1.0+x*x);
@@ -306,10 +241,11 @@ double generatorPIrD(int n , int n_steps){
 
   double time_end= omp_get_wtime(); //Setea el tiempo final para medir el tiempo total
   double total_time = time_end-time_start ; //Calcula el tiempo total de la diferencia entre el tiempo final y el inicial
-  printf("\t Reduction con \e[48;2;255;255;0m\e[38;5;196m\e[1m Planificación Dinamica \e[0m \e[38;2;0;255;0m \e[48;2;0;0;0m %lf \e[0m seg \n" ,  total_time);
-
+  printf("\n\e[48;2;255;255;0m\e[38;5;196m\e[1m Reduct Normal \e[0m\e[38;2;0;255;0m\e[48;2;0;0;0m %lf \e[0mseg",total_time);
+  
   return total_time;
 }
+
 
 // igual que el dinamic (le da mientras va terminando lo que tiene), pero en cada vuelta el conjunto de iteraciones que el so le da es menor (ej: le da 100 , la proxima le da 40 , la prox 10 ,5, ect ) 
 double pruebaGuided(int n , int percen , int n_steps){

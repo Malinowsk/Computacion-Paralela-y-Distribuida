@@ -5,6 +5,7 @@
 
 #define SQUARE 2
 
+//cualculo del desvio estandar
 double getStdDeviation(double*nums, double avg , int cant_muestras){
 
 	double add_variance = 0; //Aca se va sumando los cuadrados de la diferencia del num actual y avg
@@ -15,6 +16,7 @@ double getStdDeviation(double*nums, double avg , int cant_muestras){
 
 }
 
+//calculo del promedio
 double getAverage(double*nums , int cant_muestras) {
 
 	double adder = 0; //Aca se va guardando la suma actual
@@ -24,6 +26,7 @@ double getAverage(double*nums , int cant_muestras) {
 	return adder / cant_muestras ; //Se retorna efectivamente el promedio (cociente entre la suma y N)
 }
 
+//calculo del porcentaje
 unsigned long int percentage (unsigned long int totalNumber , unsigned long int percentage){
 	return (totalNumber*percentage)/100 ;
 }

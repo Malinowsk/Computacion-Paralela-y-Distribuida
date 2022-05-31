@@ -1,0 +1,5 @@
+make: Entering directory '/home/malinowski/Documentos/github/Computacion Distribuida/Parallel-Distributed-Computing/Programa'
+ 
+gcc -o ejecutable -fopenmp menu.c matrix.c metrics.c pi.c -lm  
+make: Leaving directory '/home/malinowski/Documentos/github/Computacion Distribuida/Parallel-Distributed-Computing/Programa'
+ 

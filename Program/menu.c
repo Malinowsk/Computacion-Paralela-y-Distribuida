@@ -117,7 +117,7 @@ void menu_nivel_1(){
 
         printf("\n");
 
-        sleep(1); // Espera 2 segundos
+        sleep(1); // Espera 1 segundos
 
     }
     while (option!=4);    // Ejecuta el do-while hasta que la variable option no sea 4
