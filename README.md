@@ -28,8 +28,8 @@ Esto generará un archivo binario llamado ejecutable, que puedes ejecutar con el
 
 El repositorio está organizado de la siguiente manera:
 
-- `/src`: Contiene el código fuente de las implementaciones paralelas de los algoritmos.
-- `/Documents`: Documentación relacionada con el proyecto, como informes, análisis de rendimiento y tutoriales de uso.
+- `/Program`: Contiene el código fuente de las implementaciones paralelas de los algoritmos.
+- `/Documents`: Documentación relacionada con el proyecto, como informes, análisis de rendimiento y herramientas que se usaron.
 - `README.md`: Este archivo que proporciona una descripción general del proyecto.
 
 
