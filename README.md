@@ -6,23 +6,23 @@ Este proyecto fue desarrollado como parte de un trabajo para la asignatura de Co
 
 Para ejecutar el programa, asegúrate de tener permisos de ejecución para el archivo `ejecutable.sh`. En caso de no tenerlos, puedes concederlos con el comando:
 
-``` chmod +x ejecutable.sh ```
+* ``` chmod +x ejecutable.sh ```
 
 Una vez que tengas los permisos adecuados, puedes ejecutar el programa mediante el siguiente comando en la consola:
 
-```./ejecutable.sh```
+* ```./ejecutable.sh```
 
 También se proporciona un archivo Makefile que puedes utilizar para compilar el programa. Si tu distribución de Linux no tiene instalado Make, puedes instalarlo con el siguiente comando:
 
-```sudo apt-get install make```
+* ```sudo apt-get install make```
 
 Luego, puedes compilar el programa ejecutando:
 
-```make```
+* ```make```
 
 Esto generará un archivo binario llamado ejecutable, que puedes ejecutar con el siguiente comando:
 
-```./ejecutable```
+* ```./ejecutable```
 
 
 ## Descripción de los Algoritmos
@@ -41,7 +41,7 @@ Se realizaron pruebas con diferentes técnicas de paralelismo para ambos algorit
 
 Los resultados mostraron que las técnicas de paralelismo tienen un impacto significativo en el rendimiento del programa, y que la elección de la técnica adecuada puede mejorar considerablemente el tiempo de ejecución en hardware con múltiples procesadores.
 
-Para obtener más detalles sobre el análisis de resultados y las conclusiones obtenidas, consulta el informe completo en la carpeta `Documens`.
+Para obtener más detalles sobre el análisis de resultados y las conclusiones obtenidas, consulta el informe completo en la carpeta `Documents`.
 
 ## Contribuciones
 
