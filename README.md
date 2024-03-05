@@ -6,7 +6,7 @@ Este proyecto fue desarrollado como parte de un trabajo para la asignatura de Co
 
 Para ejecutar el programa, asegúrate de tener permisos de ejecución para el archivo `ejecutable.sh`. En caso de no tenerlos, puedes concederlos con el comando:
 
-´´´chmod +x ejecutable.sh´´´
+´´´ chmod +x ejecutable.sh ´´´
 
 Una vez que tengas los permisos adecuados, puedes ejecutar el programa mediante el siguiente comando en la consola:
 
