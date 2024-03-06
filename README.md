@@ -65,4 +65,4 @@ Las contribuciones son bienvenidas. Si deseas contribuir al proyecto, por favor 
 
 ¡Mira una demostración del software en acción!
 
-[![Demostración del Software](https://img.youtube.com/vi/DQA52xzI4tU/maxresdefault.jpg)](https://youtu.be/DQA52xzI4tU)
+[![Demostración del Software](Documents/Screenshot_3.png)](https://youtu.be/DQA52xzI4tU)
